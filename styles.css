@@ -920,7 +920,7 @@ a {
 
 .story__photo-item img {
   width: 100%;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 3 / 4;
   object-fit: cover;
   transition: transform var(--transition-slow);
 }
@@ -1039,7 +1039,7 @@ a {
 
 .location__map-img {
   width: 100%;
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 7 / 5;
   object-fit: cover;
 }
 
@@ -1370,7 +1370,7 @@ a {
   }
 
   .story__photo-item img {
-    aspect-ratio: 3 / 2;
+    aspect-ratio: 3 / 4;
   }
 
   .section__title {

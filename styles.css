@@ -1440,3 +1440,92 @@ a {
     transform: none !important;
   }
 }
+/* ===============================
+   사전 설문 팝업
+================================ */
+
+.survey-popup {
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
+}
+
+.survey-popup.show {
+    display: flex;
+}
+
+.survey-popup__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+}
+
+.survey-popup__box {
+    position: relative;
+    width: 90%;
+    max-width: 400px;
+    background: #fff;
+    border-radius: 16px;
+    padding: 30px 24px;
+    text-align: center;
+    box-shadow: 0 12px 40px rgba(0,0,0,.2);
+}
+
+/* 제목 */
+.survey-popup__box h2 {
+    font-size: 28px;      /* 제목 크기 */
+    font-weight: 700;
+    color: #2C2420;
+    margin-bottom: 16px;
+}
+
+/* 내용 */
+.survey-popup__box p {
+    font-size: 16px;      /* 본문 크기 */
+    line-height: 1.8;
+    color: #666;
+    margin-bottom: 24px;
+}
+
+/* 버튼 */
+.survey-popup__button {
+    display: block;
+    width: 220px;      /* 원하는 폭 */
+    margin: 20px auto 0;
+
+    padding: 14px;
+    background: #8B2E3B;
+    color: #fff;
+    border-radius: 10px;
+    text-decoration: none;
+
+    font-size: 17px;
+    font-weight: 700;
+
+    transition: .2s;
+}
+
+.survey-popup__button:hover {
+    opacity: .9;
+}
+
+/* 닫기 버튼 */
+.survey-popup__close {
+    position: absolute;
+    top: 10px;
+    right: 14px;
+    border: none;
+    background: none;
+    cursor: pointer;
+
+    font-size: 30px;      /* X 버튼 크기 */
+    color: #999;
+    line-height: 1;
+}
+
+.survey-popup__close:hover {
+    color: #333;
+}

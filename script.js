@@ -660,6 +660,7 @@
     initLocation();
     initAccounts();
     initFooter();
+    initSurveyPopup();
     initScrollAnimations();
 
     $('#storyTitle').textContent = CONFIG.story.title;
@@ -680,3 +681,54 @@
     init();
   }
 })();
+
+function initSurveyPopup() {
+    const p = document.getElementById("surveyPopup");
+    if (!p) return;
+
+    const c = document.getElementById("surveyPopupClose");
+    const overlay = p.querySelector(".survey-popup__overlay");
+
+    let timer = null;
+    let isPopupOpen = false;
+    let hasTriggered = false;
+
+    window.addEventListener("scroll", () => {
+
+        const scrollTop = window.scrollY;
+        const windowHeight = window.innerHeight;
+        const documentHeight = document.documentElement.scrollHeight;
+
+        const isBottom = scrollTop + windowHeight >= documentHeight - 20;
+
+        // 위로 충분히 올라오면 다시 활성화
+        if (scrollTop + windowHeight < documentHeight - 150) {
+            hasTriggered = false;
+        }
+
+        // 이미 한 번 트리거되었거나 팝업이 열려있으면 종료
+        if (hasTriggered || isPopupOpen) return;
+
+        // 맨 아래를 한 번이라도 찍으면 타이머 시작
+        if (isBottom) {
+
+            hasTriggered = true;
+
+            timer = setTimeout(() => {
+                isPopupOpen = true;
+                p.classList.add("show");
+            }, 1000);
+
+        }
+
+    });
+
+    function closePopup() {
+        p.classList.remove("show");
+        isPopupOpen = false;
+        clearTimeout(timer);
+    }
+
+    c.onclick = closePopup;
+    overlay.onclick = closePopup;
+}

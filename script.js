@@ -712,13 +712,26 @@ function initSurveyPopup() {
         // 맨 아래를 한 번이라도 찍으면 타이머 시작
         if (isBottom) {
 
+            // 갤러리(사진) 모달이 열려있으면 팝업 표시 안 함
+            const photoModal = document.querySelector(".photo-modal");
+            if (photoModal && photoModal.classList.contains("is-open")) {
+                return;
+            }
+
             hasTriggered = true;
 
             timer = setTimeout(() => {
+
+                // 1초 후에도 모달이 열려있으면 취소
+                if (photoModal && photoModal.classList.contains("is-open")) {
+                    hasTriggered = false;
+                    return;
+                }
+
                 isPopupOpen = true;
                 p.classList.add("show");
-            }, 1000);
 
+            }, 1000);
         }
 
     });

@@ -36,37 +36,49 @@
      Image Auto-Detection
      ═══════════════════════════════════════════ */
 
-  function loadImagesFromFolder(folder, maxAttempts = 50) {
+function loadImagesFromFolder(folder, maxAttempts = 50) {
     return new Promise(resolve => {
+
         const images = [];
         let current = 1;
         let consecutiveFails = 0;
 
         function tryNext() {
+
             if (current > maxAttempts || consecutiveFails >= 3) {
                 resolve(images);
                 return;
             }
+
             const img = new Image();
-            const path = `images/${folder}/${current}.jpg`;
-            img.onload = function() {
-                images.push(path);
+
+            const thumbPath = `images/${folder}/thumb/${current}.jpg`;
+            const originalPath = `images/${folder}/original/${current}.jpg`;
+
+            img.onload = function () {
+
+                images.push({
+                    thumb: thumbPath,
+                    original: originalPath
+                });
+
                 consecutiveFails = 0;
                 current++;
                 tryNext();
             };
-            img.onerror = function() {
+
+            img.onerror = function () {
                 consecutiveFails++;
                 current++;
                 tryNext();
             };
-            img.src = path;
+
+            img.src = thumbPath;
         }
 
         tryNext();
     });
-  }
-
+}
   /* ═══════════════════════════════════════════
      Toast
      ═══════════════════════════════════════════ */
@@ -332,15 +344,22 @@
 
     if (storyImages.length === 0) return;
 
-    storyImages.forEach((src, i) => {
-      const div = document.createElement('div');
-      div.className = 'story__photo-item animate-item';
-      div.setAttribute('data-animate', 'fade-up');
-      div.innerHTML = `<img src="${src}" alt="스토리 사진 ${i + 1}" loading="lazy">`;
-      div.addEventListener('click', () => openPhotoModal(storyImages, i));
-      container.appendChild(div);
-    });
-  }
+storyImages.forEach((image, i) => {
+  const div = document.createElement('div');
+  div.className = 'story__photo-item animate-item';
+  div.setAttribute('data-animate', 'fade-up');
+
+  div.innerHTML = `
+    <img
+      src="${image.thumb}"
+      data-original="${image.original}"
+      alt="스토리 사진 ${i + 1}"
+      loading="lazy">
+  `;
+
+  div.addEventListener('click', () => openPhotoModal(storyImages, i));
+  container.appendChild(div);
+});  }
 
   /* ═══════════════════════════════════════════
      Gallery Section
@@ -360,26 +379,31 @@
 
   const initialCount = 6;    //처음 사진 수
 
-  function renderImages(count) {
-    grid.innerHTML = '';
+function renderImages(count) {
+  grid.innerHTML = '';
 
-    galleryImages.slice(0, count).forEach((src, i) => {
-      const div = document.createElement('div');
+  galleryImages.slice(0, count).forEach((image, i) => {
 
-      div.className = 'gallery__item animate-item';
-      div.setAttribute('data-animate', 'scale-in');
+    const div = document.createElement('div');
 
-      div.innerHTML =
-        `<img src="${src}" alt="갤러리 사진 ${i + 1}" loading="lazy">`;
+    div.className = 'gallery__item animate-item';
+    div.setAttribute('data-animate', 'scale-in');
 
-      div.addEventListener('click', () => {
-        openPhotoModal(galleryImages, i);
-      });
+    div.innerHTML = `
+      <img
+        src="${image.thumb}"
+        data-original="${image.original}"
+        alt="갤러리 사진 ${i + 1}"
+        loading="lazy">
+    `;
 
-      grid.appendChild(div);
+    div.addEventListener('click', () => {
+      openPhotoModal(galleryImages, i);
     });
-  }
 
+    grid.appendChild(div);
+  });
+}
   renderImages(Math.min(initialCount, galleryImages.length));
 
   const moreBtn = $('#galleryMoreBtn');
@@ -437,13 +461,19 @@
 
   function showModalImage() {
     const img = $('#modalImg');
-    img.src = modalImages[modalIndex];
-    $('#modalCounter').textContent = `${modalIndex + 1} / ${modalImages.length}`;
 
-    $('#modalPrev').style.display = modalIndex > 0 ? '' : 'none';
-    $('#modalNext').style.display = modalIndex < modalImages.length - 1 ? '' : 'none';
+    // 원본 이미지 표시
+    img.src = modalImages[modalIndex].original;
+
+    $('#modalCounter').textContent =
+      `${modalIndex + 1} / ${modalImages.length}`;
+
+    $('#modalPrev').style.display =
+      modalIndex > 0 ? '' : 'none';
+
+    $('#modalNext').style.display =
+      modalIndex < modalImages.length - 1 ? '' : 'none';
   }
-
   function modalNavigate(dir) {
     const newIndex = modalIndex + dir;
     if (newIndex >= 0 && newIndex < modalImages.length) {

@@ -459,21 +459,49 @@ function renderImages(count) {
     document.body.classList.remove('no-scroll');
   }
 
-  function showModalImage() {
-    const img = $('#modalImg');
+function showModalImage() {
 
-    // 원본 이미지 표시
-    img.src = modalImages[modalIndex].original;
+    const img = $('#modalImg');
+    const loader = $('#modalLoader');
+
+    loader.classList.remove('hidden');
+
+    // 이전 이미지 잠시 숨김
+    img.style.opacity = '0';
+
+    const preload = new Image();
+
+    preload.onload = () => {
+
+        img.src = preload.src;
+
+        img.style.opacity = '1';
+
+        loader.classList.add('hidden');
+
+    };
+
+    preload.onerror = () => {
+
+        loader.classList.add('hidden');
+
+        img.style.opacity = '1';
+
+    };
+
+    preload.src = modalImages[modalIndex].original;
 
     $('#modalCounter').textContent =
-      `${modalIndex + 1} / ${modalImages.length}`;
+        `${modalIndex + 1} / ${modalImages.length}`;
 
     $('#modalPrev').style.display =
-      modalIndex > 0 ? '' : 'none';
+        modalIndex > 0 ? '' : 'none';
 
     $('#modalNext').style.display =
-      modalIndex < modalImages.length - 1 ? '' : 'none';
-  }
+        modalIndex < modalImages.length - 1 ? '' : 'none';
+}
+
+
   function modalNavigate(dir) {
     const newIndex = modalIndex + dir;
     if (newIndex >= 0 && newIndex < modalImages.length) {

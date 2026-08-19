@@ -1529,3 +1529,27 @@ a {
 .survey-popup__close:hover {
     color: #333;
 }
+
+.photo-modal__loader{
+    position:absolute;
+    inset:0;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:rgba(0,0,0,.15);
+    z-index:1;
+}
+
+.photo-modal__loader.hidden{
+    display:none;
+}
+
+.photo-modal__img{
+    position:relative;
+    z-index:2;
+}
+
+.photo-modal__img{
+    opacity:1;
+    transition:opacity .25s ease;
+}

@@ -515,12 +515,12 @@ function showModalImage() {
     $('#modalPrev').addEventListener('click', () => modalNavigate(-1));
     $('#modalNext').addEventListener('click', () => modalNavigate(1));
 
-    const modal = $('#photoModal');
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal || e.target.id === 'modalContainer') {
-        closePhotoModal();
-      }
-    });
+//    const modal = $('#photoModal');
+//    modal.addEventListener('click', (e) => {
+//      if (e.target === modal || e.target.id === 'modalContainer') {
+//        closePhotoModal();
+//      }
+//    });
 
     // Keyboard navigation
     document.addEventListener('keydown', (e) => {

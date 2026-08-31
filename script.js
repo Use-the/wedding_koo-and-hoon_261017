@@ -452,12 +452,12 @@ let scrollY = 0;
     showModalImage();
     $('#photoModal').classList.add('is-open');
 scrollY = window.scrollY;
-    document.body.classList.add('no-scroll');
+ //   document.body.classList.add('no-scroll');
   }
 
   function closePhotoModal() {
     $('#photoModal').classList.remove('is-open');
-    document.body.classList.remove('no-scroll');
+ //   document.body.classList.remove('no-scroll');
 window.scrollTo(0, scrollY);
   }
 

@@ -438,7 +438,7 @@ function renderImages(count) {
   /* ═══════════════════════════════════════════
      Photo Modal (with swipe)
      ═══════════════════════════════════════════ */
-
+let scrollY = 0;
   let modalImages = [];
   let modalIndex = 0;
   let touchStartX = 0;
@@ -451,12 +451,14 @@ function renderImages(count) {
     modalIndex = index;
     showModalImage();
     $('#photoModal').classList.add('is-open');
+scrollY = window.scrollY;
     document.body.classList.add('no-scroll');
   }
 
   function closePhotoModal() {
     $('#photoModal').classList.remove('is-open');
     document.body.classList.remove('no-scroll');
+window.scrollTo(0, scrollY);
   }
 
 function showModalImage() {
